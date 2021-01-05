@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addTaskContainerLl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:visibility="invisible"
+    android:layout_margin="15dp"
+    android:gravity="center"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/addTaskIconIv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/vector_drawable_add_task" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/add_new_task"
+        android:textSize="20sp" />
+
+</LinearLayout>

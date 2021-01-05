@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">day_record</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_language">Language</string>
+    <string name="menu_settings">Settings</string>
+
+
+    <string name="day_task">Day Task</string>
+    <string name="year_task">Year Task</string>
+
+    <string name="add_task">Add Task</string>
+
+    <string name="please_input_your_task">Please input your task</string>
+    <string name="please_input_your_target">Please input your target</string>
+    <string name="add">add</string>
+    <string name="add_task_successfully">Add New Task Successfully!</string>
+    <string name="add_task_failed">Add New Task Failed!</string>
+    <string name="pls_input_right_format">please input the right format</string>
+
+    <string name="target_day">Target Day: %1$d</string>
+    <string name="progress_day">Progress: %1$d</string>
+    <string name="add_new_task">Add New Task</string>
+
+    <string name="update_task">Update Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="cancel">Cancel</string>
+</resources>

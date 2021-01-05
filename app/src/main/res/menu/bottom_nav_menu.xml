@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/bottomNavDayTask"
+        android:enabled="true"
+        android:icon="@drawable/vector_drawable_24h_day"
+        android:title="@string/day_task"
+        />
+
+    <item android:id="@+id/bottomNavYearTask"
+        android:enabled="true"
+        android:icon="@drawable/vector_drawable_year"
+        android:title="@string/year_task"
+        />
+
+</menu>

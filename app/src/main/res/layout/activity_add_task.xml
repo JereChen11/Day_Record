@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.task.AddTaskActivity">
+
+    <com.day.record.utils.MyAppBar
+        android:id="@+id/addTaskAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/add_task" />
+
+    <LinearLayout
+        android:id="@+id/taskContainerLl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/add_task_rectangle_radius_10"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addTaskAppBar">
+
+        <ImageView
+            android:id="@+id/addTaskBgIconIv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_drawable_add_task" />
+
+        <EditText
+            android:id="@+id/taskEt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:hint="@string/please_input_your_task"
+            android:inputType="text"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/taskDayTargetContainerLl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/add_task_rectangle_radius_10"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/taskContainerLl">
+
+        <ImageView
+            android:id="@+id/taskTargetDayIv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_drawable_day_target" />
+
+        <EditText
+            android:id="@+id/taskTargetEt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:hint="@string/please_input_your_target"
+            android:inputType="number"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addTaskBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/add"
+        app:layout_constraintEnd_toEndOf="@id/taskDayTargetContainerLl"
+        app:layout_constraintStart_toStartOf="@id/taskDayTargetContainerLl"
+        app:layout_constraintTop_toBottomOf="@id/taskDayTargetContainerLl" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
