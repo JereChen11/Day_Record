@@ -21,6 +21,7 @@ import com.day.record.data.YearTask
 import com.day.record.databinding.FragmentYearTaskBinding
 import com.day.record.databinding.RcyItemYearTaskViewBinding
 import com.day.record.databinding.TaskDialogFragmentBinding
+import com.day.record.ui.TaskDetailActivity
 import com.day.record.ui.task.AddTaskActivity
 import com.day.record.utils.MyDialogFragment
 
@@ -48,7 +49,8 @@ class YearTaskFragment : Fragment() {
         yearTaskListAdapter = context?.let { YearTaskListAdapter(it, yearTaskList) }
         yearTaskListAdapter?.setItemClickListener(object : YearTaskListAdapter.ItemClickListener {
             override fun onClick(view: View?, position: Int) {
-                TODO("Not yet implemented")
+
+                startActivity(Intent(activity, TaskDetailActivity::class.java))
             }
 
             override fun onLongClick(view: View?, position: Int) {
@@ -114,7 +116,7 @@ class YearTaskFragment : Fragment() {
             View.OnLongClickListener {
 
             init {
-                //binding.yearTaskContainerCl.setOnClickListener(this)
+                binding.yearTaskContainerCl.setOnClickListener(this)
                 binding.yearTaskContainerCl.setOnLongClickListener(this)
             }
 
@@ -129,7 +131,7 @@ class YearTaskFragment : Fragment() {
             }
 
             override fun onClick(v: View?) {
-                TODO("Not yet implemented")
+                itemClickListener?.onClick(v, adapterPosition)
             }
 
             override fun onLongClick(v: View?): Boolean {
@@ -223,8 +225,8 @@ class YearTaskFragment : Fragment() {
             const val TAG = "TaskDialogFragment"
             private const val TASK_NAME_KEY = "TASK_NAME"
 
-            fun newInstance(title: String): MyDialogFragment {
-                return MyDialogFragment().apply {
+            fun newInstance(title: String): TaskDialogFragment {
+                return TaskDialogFragment().apply {
                     arguments = Bundle().apply {
                         putString(TASK_NAME_KEY, title)
                     }
@@ -238,7 +240,7 @@ class YearTaskFragment : Fragment() {
         val ft = childFragmentManager.beginTransaction()
         val taskDialogFragment = TaskDialogFragment.newInstance(taskName)
         taskDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_style)
-        taskDialogFragment.show(ft, MyDialogFragment.TAG)
+        taskDialogFragment.show(ft, TaskDialogFragment.TAG)
     }
 
 }

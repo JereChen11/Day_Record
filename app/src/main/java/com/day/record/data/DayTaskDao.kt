@@ -10,6 +10,9 @@ interface DayTaskDao {
     @Query("SELECT * FROM dayTasks WHERE task LIKE :task")
     suspend fun findDayTaskByName(task: String): DayTask
 
+    @Query("SELECT * FROM dayTasks WHERE date LIKE :date")
+    suspend fun findDayTaskByDate(date: String): List<DayTask>
+
     @Insert
     suspend fun insertAllDayTasks(vararg dayTasks: DayTask)
 
