@@ -1,12 +1,15 @@
-package com.day.record.data
+package com.day.record.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * @author Jere
+ */
 @Entity(tableName = "dayTasks")
 data class DayTask(
-        @ColumnInfo(name = "task") val task: String,
+        @ColumnInfo(name = "taskName") var taskName: String,
         @ColumnInfo(name = "isFinish") var isFinish: Boolean,
         @ColumnInfo(name = "date") var date: String
 ) {

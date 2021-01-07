@@ -5,15 +5,16 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="15dp"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:padding="5dp"
     android:visibility="visible">
 
     <TextView
+        android:id="@+id/noTaskTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="@string/no_task"
+        android:text="@string/meet_in_the_future"
         android:textSize="20sp" />
 
 </LinearLayout>

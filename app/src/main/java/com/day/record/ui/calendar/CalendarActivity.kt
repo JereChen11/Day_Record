@@ -1,9 +1,8 @@
-package com.day.record.ui
+package com.day.record.ui.calendar
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,70 +11,74 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.day.record.R
-import com.day.record.data.DayTask
-import com.day.record.databinding.ActivityTaskDetailBinding
+import com.day.record.data.entity.DayTask
+import com.day.record.databinding.ActivityCalendarBinding
 import com.day.record.databinding.RcyItemTaskDetailNoTaskViewBinding
 import com.day.record.databinding.RcyItemTaskDetailViewBinding
+import com.day.record.utils.Utils
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
+import java.text.ParsePosition
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener {
+/**
+ * @author Jere
+ */
+class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener {
 
-    private lateinit var binding: ActivityTaskDetailBinding
-    private lateinit var taskDetailViewModel: TaskDetailViewModel
+    private lateinit var binding: ActivityCalendarBinding
+    private lateinit var calendarViewModel: CalendarViewModel
     private var dayTaskList: List<DayTask> = ArrayList()
     private lateinit var taskDetailListAdapter: TaskDetailListAdapter
-
-    private var curYear = 2021
-    private var curMonth = 1
-    private var curDay = 1
+    private lateinit var currentSelectedDate: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTaskDetailBinding.inflate(layoutInflater)
+        binding = ActivityCalendarBinding.inflate(layoutInflater)
         val rootView = binding.root
         setContentView(rootView)
 
-        taskDetailViewModel = ViewModelProvider(this)[TaskDetailViewModel::class.java]
+        calendarViewModel = ViewModelProvider(this)[CalendarViewModel::class.java]
 
-        curYear = binding.calendarView.curYear
-        curMonth = binding.calendarView.curMonth
-        curDay = binding.calendarView.curDay
+        val curYear = binding.calendarView.curYear
+        val curMonth = binding.calendarView.curMonth
+        val curDay = binding.calendarView.curDay
         val lunar = binding.calendarView.selectedCalendar.lunar
         setSelectedDate(curYear, curMonth, curDay, lunar)
-
         queryMonthTasksData(curYear, curMonth, curDay)
-
-        Log.e("jctest", "onCreate: curYear = $curYear, curMonth = $curMonth, curDay = $curDay")
-        val data = "$curYear-$curMonth-$curDay"
 
         binding.calendarView.setOnCalendarSelectListener(this)
 
-        taskDetailViewModel.monthTasksDataMld.observe(this, Observer {
-            setCalendarSchemeDate(it)
+        calendarViewModel.monthTasksDataMld.observe(this, Observer {
+            setCalendarSchemeDate(it, curYear, curMonth)
         })
-        taskDetailViewModel.dayTaskListMld.observe(this, Observer {
-            Log.e("jctest", "onCreate: it.size = ${it.size}")
+        calendarViewModel.dayTaskListMld.observe(this, Observer {
             dayTaskList = it
-            Log.e("jctest", "onCreate: dayTaskList.size = ${dayTaskList.size}")
-            taskDetailListAdapter.setData(dayTaskList)
+            taskDetailListAdapter.setData(dayTaskList, currentSelectedDate)
         })
 
-        taskDetailListAdapter = TaskDetailListAdapter(dayTaskList)
+        taskDetailListAdapter =
+            TaskDetailListAdapter(
+                this,
+                dayTaskList
+            )
         binding.taskRcy.adapter = taskDetailListAdapter
 
     }
 
-    private fun setCalendarSchemeDate(map: Map<String, List<DayTask>>) {
+    private fun setCalendarSchemeDate(
+        map: Map<String, List<DayTask>>,
+        curYear: Int,
+        curMonth: Int
+    ) {
         val calendarSchemeMap: MutableMap<String, Calendar?> = HashMap()
 
         for ((k, v) in map) {
             val taskProgress = calculateDayTaskProgress(v).toString()
             val day = k.subSequence(8, 10).toString().toInt()
-            Log.e(
-                "jctest",
-                "setCalendarSchemeDate: $k taskProgress = $taskProgress excess day = $day"
-            )
             val calendar = getSchemeCalendar(curYear, curMonth, day, R.color.teal_200, taskProgress)
             calendarSchemeMap[calendar.toString()] = calendar
         }
@@ -129,13 +132,13 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
     }
 
     private fun setSelectedDate(year: Int?, month: Int?, day: Int?, lunar: String?) {
-        val selectedDate = "$month 月 $day 日"
+        val selectedDate = getString(R.string.format_selected_date, year, month, day)
+        binding.calendarAppBar.setTitleText(selectedDate)
         binding.selectedDateTv.text = selectedDate
-        binding.selectedYearTv.text = year.toString()
-        binding.selectedLunarTv.text = lunar
         binding.calendarSelectedDayTv.text = day.toString()
 
-        taskDetailViewModel.getTaskByDate(formatDate(year!!, month!!, day!!))
+        currentSelectedDate = formatDate(year!!, month!!, day!!)
+        calendarViewModel.getTaskByDate(currentSelectedDate)
     }
 
     /**
@@ -145,10 +148,9 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
         val dateList: MutableList<String> = ArrayList()
         for (indexDay in 1..day) {
             val date = formatDate(year, month, indexDay)
-            Log.e("jctest", "getTaskByDate: date = $date")
             dateList.add(date)
         }
-        taskDetailViewModel.getAllTaskByDateList(dateList)
+        calendarViewModel.getAllTaskByDateList(dateList)
     }
 
     private fun formatDate(year: Int, month: Int, day: Int): String {
@@ -164,7 +166,10 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
     }
 
 
-    class TaskDetailListAdapter(private var dayTaskList: List<DayTask>) :
+    class TaskDetailListAdapter(
+        private val context: Context,
+        private var dayTaskList: List<DayTask>
+    ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         companion object {
@@ -172,8 +177,11 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
             private const val NO_TASK_TYPE = 1
         }
 
-        fun setData(newDayTaskList: List<DayTask>) {
+        private var currentSelectedDate: String? = null
+
+        fun setData(newDayTaskList: List<DayTask>, newSelectedDate: String) {
             this.dayTaskList = newDayTaskList
+            currentSelectedDate = newSelectedDate
             notifyDataSetChanged()
         }
 
@@ -186,7 +194,7 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
                 } else {
                     binding.isCheckedIconIv.setImageResource(R.drawable.vector_drawable_uncheck)
                 }
-                binding.taskTv.text = dayTask.task
+                binding.taskTv.text = dayTask.taskName
             }
 
         }
@@ -194,12 +202,24 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
         class NoTaskViewHolder(private val binding: RcyItemTaskDetailNoTaskViewBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-            fun bind() {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    kotlin.run {
-                        binding.noTaskContainerLl.visibility = View.VISIBLE
+            fun bind(context: Context, selectedDateString: String?) {
+                if (!selectedDateString.isNullOrBlank()) {
+                    val currentDate = convertStringToDate(Utils.getCurrentDate())
+                    val selectedDate = convertStringToDate(selectedDateString)
+                    if (currentDate?.before(selectedDate)!!) {
+                        binding.noTaskTv.text =
+                            context.getString(R.string.meet_in_the_future)
+                    } else {
+                        binding.noTaskTv.text = context.getString(R.string.no_do_any_task)
                     }
-                }, 100)
+                    binding.noTaskContainerLl.visibility = View.VISIBLE
+                }
+            }
+
+            @SuppressLint("SimpleDateFormat")
+            private fun convertStringToDate(dateString: String): Date? {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                return dateFormat.parse(dateString, ParsePosition(0))
             }
 
         }
@@ -211,7 +231,9 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
                     parent,
                     false
                 )
-                return MyViewHolder(binding)
+                return MyViewHolder(
+                    binding
+                )
             }
             val noTaskBinding =
                 RcyItemTaskDetailNoTaskViewBinding.inflate(
@@ -219,7 +241,9 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
                     parent,
                     false
                 )
-            return NoTaskViewHolder(noTaskBinding)
+            return NoTaskViewHolder(
+                noTaskBinding
+            )
         }
 
         override fun getItemViewType(position: Int): Int {
@@ -244,7 +268,7 @@ class TaskDetailActivity : AppCompatActivity(), CalendarView.OnCalendarSelectLis
                 myViewHolder.bind(dayTaskList[position])
             } else {
                 val noTaskViewHolder = holder as NoTaskViewHolder
-                noTaskViewHolder.bind()
+                noTaskViewHolder.bind(context, currentSelectedDate)
             }
 
         }

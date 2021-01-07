@@ -13,12 +13,15 @@
     <string name="year_task">Year Task</string>
 
     <string name="add_task">Add Task</string>
+    <string name="calendar">Calendar</string>
 
     <string name="please_input_your_task">Please input your task</string>
     <string name="please_input_your_target">Please input your target</string>
     <string name="add">add</string>
     <string name="add_task_successfully">Add New Task Successfully!</string>
-    <string name="add_task_failed">Add New Task Failed!</string>
+    <string name="update_task_successfully">Update Task Successfully!</string>
+    <string name="delete_task_successfully">Delete Task Successfully!</string>
+    <string name="failed_prompt">Failed!</string>
     <string name="pls_input_right_format">please input the right format</string>
 
     <string name="target_day">Target Day: %1$d</string>
@@ -29,5 +32,10 @@
     <string name="delete_task">Delete Task</string>
     <string name="cancel">Cancel</string>
 
-    <string name="no_task">No Task</string>
+    <string name="format_selected_date">%d / %d / %d</string>
+    <string name="meet_in_the_future">This day in the future\nLet’s meet again!</string>
+    <string name="no_do_any_task">You didn\'t do any task today\nCome on!</string>
+    <!--    <string name="format_selected_date">%d 年 %d 月 %d 日</string>-->
+    <!--    <string name="meet_in_the_future">未来的这一天\n我们再来见面吧!</string>-->
+    <!--    <string name="no_do_any_task">你没有在这一天进行任何打卡哦\n加油~坚持就是胜利!</string>-->
 </resources>

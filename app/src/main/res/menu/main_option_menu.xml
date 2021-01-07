@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/addTask"
-        android:icon="@drawable/vector_drawable_add_task"
+    <item android:id="@+id/calendarItem"
+        android:icon="@drawable/vector_drawable_all_calendar"
         app:showAsAction="always"
-        android:title="@string/add_task" />
+        android:title="@string/calendar" />
 
 </menu>

@@ -8,6 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.day.record.R
 import kotlinx.android.synthetic.main.custom_view_my_app_bar.view.*
 
+/**
+ * @author Jere
+ */
 class MyAppBar(
     context: Context,
     attr: AttributeSet?,

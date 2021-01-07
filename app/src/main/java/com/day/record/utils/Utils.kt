@@ -4,6 +4,9 @@ import android.content.res.Resources
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * @author Jere
+ */
 object Utils {
 
     fun dpToPixel(dp: Float): Float {

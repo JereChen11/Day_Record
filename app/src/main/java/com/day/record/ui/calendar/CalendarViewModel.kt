@@ -1,15 +1,18 @@
-package com.day.record.ui
+package com.day.record.ui.calendar
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.day.record.MyApp
-import com.day.record.data.DayTask
+import com.day.record.data.entity.DayTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TaskDetailViewModel : ViewModel() {
+/**
+ * @author Jere
+ */
+class CalendarViewModel : ViewModel() {
 
     val dayTaskListMld: MutableLiveData<List<DayTask>> = MutableLiveData()
 

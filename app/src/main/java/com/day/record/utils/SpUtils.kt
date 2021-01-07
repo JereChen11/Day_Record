@@ -4,13 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.day.record.MyApp
 
+/**
+ * @author Jere
+ */
 class SpUtils() {
     private lateinit var sp: SharedPreferences
     private val spName: String = "record_sp"
 
     private val dateKey: String = "date_key"
 
-    constructor(context: Context): this() {
+    constructor(context: Context) : this() {
         sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE)
     }
 
@@ -27,7 +30,7 @@ class SpUtils() {
 
         private lateinit var instance: SpUtils
 
-        fun getInstance() : SpUtils {
+        fun getInstance(): SpUtils {
             if (!Companion::instance.isInitialized) {
                 synchronized(SpUtils::class.java) {
                     if (!Companion::instance.isInitialized) {

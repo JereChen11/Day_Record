@@ -5,6 +5,9 @@ import android.content.Context
 import androidx.room.Room
 import com.day.record.data.AppDatabase
 
+/**
+ * @author Jere
+ */
 class MyApp : Application() {
 
     companion object {

@@ -9,22 +9,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.day.record.MyApp
 import com.day.record.R
-import com.day.record.data.YearTask
+import com.day.record.data.entity.YearTask
 import com.day.record.databinding.FragmentYearTaskBinding
 import com.day.record.databinding.RcyItemYearTaskViewBinding
 import com.day.record.databinding.TaskDialogFragmentBinding
-import com.day.record.ui.TaskDetailActivity
-import com.day.record.ui.task.AddTaskActivity
-import com.day.record.utils.MyDialogFragment
+import com.day.record.ui.task.CrudTaskActivity
 
+/**
+ * @author Jere
+ */
 class YearTaskFragment : Fragment() {
 
     private lateinit var yearViewModel: YearViewModel
@@ -50,13 +49,13 @@ class YearTaskFragment : Fragment() {
         yearTaskListAdapter?.setItemClickListener(object : YearTaskListAdapter.ItemClickListener {
             override fun onClick(view: View?, position: Int) {
 
-                startActivity(Intent(activity, TaskDetailActivity::class.java))
+//                startActivity(Intent(activity, TaskDetailActivity::class.java))
             }
 
             override fun onLongClick(view: View?, position: Int) {
                 //todo show change year task dialog
 
-                showDialog(yearTaskList[position].task)
+                showDialog(yearTaskList[position])
 
 
             }
@@ -68,8 +67,6 @@ class YearTaskFragment : Fragment() {
             yearTaskList = it
             yearTaskListAdapter?.setData(yearTaskList)
         })
-
-        getString(R.string.target_day, 330)
     }
 
     override fun onResume() {
@@ -161,7 +158,7 @@ class YearTaskFragment : Fragment() {
     class TaskDialogFragment : DialogFragment(), View.OnClickListener {
 
         private var binding: TaskDialogFragmentBinding? = null
-        private var taskName: String? = null
+        private var yearTask: YearTask? = null
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -175,7 +172,7 @@ class YearTaskFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
-            taskName = arguments?.getString(TASK_NAME_KEY)
+            yearTask = arguments?.getSerializable(YEAR_TASK_KEY) as YearTask?
 
             binding?.updateTaskTv?.setOnClickListener(this)
             binding?.deleteTaskTv?.setOnClickListener(this)
@@ -202,10 +199,10 @@ class YearTaskFragment : Fragment() {
         override fun onClick(v: View?) {
             when (v?.id) {
                 R.id.updateTaskTv -> {
-                    goToTaskActivity(AddTaskActivity.UPDATE_OPERATE)
+                    goToTaskActivity(CrudTaskActivity.UPDATE_OPERATE)
                 }
                 R.id.deleteTaskTv -> {
-                    goToTaskActivity(AddTaskActivity.DELETE_OPERATE)
+                    goToTaskActivity(CrudTaskActivity.DELETE_OPERATE)
                 }
                 R.id.cancelTv -> dialog?.dismiss()
             }
@@ -213,22 +210,23 @@ class YearTaskFragment : Fragment() {
 
         private fun goToTaskActivity(operateType: Int) {
             val bundle = Bundle()
-            bundle.putInt(AddTaskActivity.OPERATE_TYPE_KEY, operateType)
-            bundle.putString(AddTaskActivity.TASK_NAME_KEY, taskName)
-            val intent = Intent(context, AddTaskActivity::class.java)
+            bundle.putInt(CrudTaskActivity.OPERATE_TYPE_KEY, operateType)
+            bundle.putSerializable(CrudTaskActivity.YEAR_TASK_KEY, yearTask)
+            val intent = Intent(context, CrudTaskActivity::class.java)
             intent.putExtras(bundle)
             startActivity(intent)
+            dialog?.dismiss()
         }
 
         companion object {
 
             const val TAG = "TaskDialogFragment"
-            private const val TASK_NAME_KEY = "TASK_NAME"
+            private const val YEAR_TASK_KEY = "YEAR_TASK"
 
-            fun newInstance(title: String): TaskDialogFragment {
+            fun newInstance(yearTask: YearTask): TaskDialogFragment {
                 return TaskDialogFragment().apply {
                     arguments = Bundle().apply {
-                        putString(TASK_NAME_KEY, title)
+                        putSerializable(YEAR_TASK_KEY, yearTask)
                     }
                 }
             }
@@ -236,9 +234,9 @@ class YearTaskFragment : Fragment() {
 
     }
 
-    private fun showDialog(taskName: String) {
+    private fun showDialog(yearTask: YearTask) {
         val ft = childFragmentManager.beginTransaction()
-        val taskDialogFragment = TaskDialogFragment.newInstance(taskName)
+        val taskDialogFragment = TaskDialogFragment.newInstance(yearTask)
         taskDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_style)
         taskDialogFragment.show(ft, TaskDialogFragment.TAG)
     }

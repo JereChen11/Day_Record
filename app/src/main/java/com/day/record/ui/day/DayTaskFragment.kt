@@ -12,19 +12,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.day.record.data.DayTask
+import com.day.record.data.entity.DayTask
 import com.day.record.databinding.FragmentDayTaskBinding
 import com.day.record.databinding.RcyItemDayTaskViewBinding
 import com.day.record.databinding.RcyItemTaskBottomViewBinding
-import com.day.record.ui.task.AddTaskActivity
+import com.day.record.ui.task.CrudTaskActivity
 import com.day.record.utils.SpUtils
 import com.day.record.utils.Utils
 
+/**
+ * @author Jere
+ */
 class DayTaskFragment : Fragment() {
 
     private lateinit var dayTaskViewModel: DayTaskViewModel
     private var binding: FragmentDayTaskBinding? = null
-    private var dayTaskList: List<DayTask> = ArrayList()
+    private var dayTaskList: MutableList<DayTask> = ArrayList()
     private var dayTaskListAdapter: DayTaskListAdapter? = null
 
     override fun onCreateView(
@@ -39,14 +42,9 @@ class DayTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dayTaskViewModel = ViewModelProvider(this).get(DayTaskViewModel::class.java)
-        //todo need add new dayTask on new day
-        if (SpUtils.getInstance().getDate() != Utils.getCurrentDate()) {
-            SpUtils.getInstance().setDate(Utils.getCurrentDate())
-            dayTaskViewModel.resetDayTask()
-        }
-
         dayTaskViewModel.dayTaskListLd.observe(viewLifecycleOwner, Observer {
-            dayTaskList = it
+            dayTaskList.clear()
+            dayTaskList.addAll(it)
             dayTaskListAdapter?.setData(dayTaskList)
         })
 
@@ -63,7 +61,13 @@ class DayTaskFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        dayTaskViewModel.getAllDayTasks()
+        //todo need add new dayTask on new day
+        if (SpUtils.getInstance().getDate() != Utils.getCurrentDate()) {
+            dayTaskViewModel.resetDayTask()
+            SpUtils.getInstance().setDate(Utils.getCurrentDate())
+        } else {
+            dayTaskViewModel.getCurrentDateAllTasks()
+        }
     }
 
     override fun onDestroyView() {
@@ -100,7 +104,7 @@ class DayTaskFragment : Fragment() {
             RecyclerView.ViewHolder(binding.root) {
 
             fun bind(dayTask: DayTask) {
-                binding.checkbox.text = dayTask.task
+                binding.checkbox.text = dayTask.taskName
                 binding.checkbox.isChecked = dayTask.isFinish
 
                 binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -120,9 +124,9 @@ class DayTaskFragment : Fragment() {
                     }
                 }, 100)
                 binding.addTaskContainerLl.setOnClickListener {
-                    val intent = Intent(context, AddTaskActivity::class.java)
+                    val intent = Intent(context, CrudTaskActivity::class.java)
                     val bundle = Bundle()
-                    bundle.putInt(AddTaskActivity.OPERATE_TYPE_KEY, AddTaskActivity.ADD_OPERATE)
+                    bundle.putInt(CrudTaskActivity.OPERATE_TYPE_KEY, CrudTaskActivity.ADD_OPERATE)
                     intent.putExtras(bundle)
                     context.startActivity(intent)
                 }

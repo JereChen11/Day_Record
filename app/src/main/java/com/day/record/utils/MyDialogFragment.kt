@@ -1,5 +1,6 @@
 package com.day.record.utils
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -10,6 +11,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.day.record.databinding.MyDialogFragmentBinding
 
+/**
+ * @author Jere
+ */
 class MyDialogFragment : DialogFragment() {
 
     private var binding: MyDialogFragmentBinding? = null
@@ -67,6 +71,25 @@ class MyDialogFragment : DialogFragment() {
         val animatorSet = AnimatorSet()
         animatorSet.playSequentially(oa, oa1, oa2)
         animatorSet.start()
+
+        animatorSet.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                activity?.finish()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+                activity?.finish()
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     override fun onDestroyView() {

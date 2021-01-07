@@ -6,12 +6,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.day.record.ui.calendar.CalendarActivity
 import com.day.record.ui.day.DayTaskFragment
-import com.day.record.ui.task.AddTaskActivity
 import com.day.record.ui.year.YearTaskFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
+/**
+ * @author Jere
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,12 +74,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.addTask -> {
-                val intent = Intent(this, AddTaskActivity::class.java)
-                val bundle = Bundle()
-                bundle.putInt(AddTaskActivity.OPERATE_TYPE_KEY, AddTaskActivity.ADD_OPERATE)
-                intent.putExtras(bundle)
-                startActivity(intent)
+            R.id.calendarItem -> {
+                startActivity(Intent(this, CalendarActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

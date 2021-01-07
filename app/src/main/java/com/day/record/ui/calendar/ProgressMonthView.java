@@ -1,14 +1,16 @@
-package com.day.record.ui;
+package com.day.record.ui.calendar;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import com.day.record.R;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.MonthView;
 
+/**
+ * @author Jere
+ */
 public class ProgressMonthView extends MonthView {
 
     private Paint mProgressPaint = new Paint();
