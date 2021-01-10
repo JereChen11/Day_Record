@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">每日打卡</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">主页</string>
+    <string name="menu_language">语言</string>
+    <string name="menu_settings">设置</string>
+
+
+    <string name="day_task">每日任务</string>
+    <string name="year_task">年度计划</string>
+
+    <string name="add_task">添加计划</string>
+    <string name="calendar">日历</string>
+
+    <string name="please_input_your_task">请输入你的任务计划</string>
+    <string name="please_input_your_target">请输入你的目标打卡天数</string>
+    <string name="add">添加</string>
+    <string name="add_task_successfully">添加任务成功!</string>
+    <string name="update_task_successfully">更新任务成功!</string>
+    <string name="delete_task_successfully">删除任务成功!</string>
+    <string name="failed_prompt">失败!</string>
+    <string name="pls_input_right_format">请输入正确的格式</string>
+
+    <string name="target_day">目标天数: %1$d</string>
+    <string name="progress_day">进度: %1$d</string>
+    <string name="add_new_task">添加一个新的任务计划</string>
+
+    <string name="update_task">更新任务</string>
+    <string name="delete_task">删除任务</string>
+    <string name="cancel">取消</string>
+
+    <string name="format_selected_date">%d 年 %d 月 %d 日</string>
+    <string name="meet_in_the_future">未来的这一天\n我们再来见面吧!</string>
+    <string name="no_do_any_task">你没有在这一天进行任何打卡哦\n加油~坚持就是胜利!</string>
+</resources>

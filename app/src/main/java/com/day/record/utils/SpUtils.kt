@@ -10,11 +10,19 @@ import com.day.record.MyApp
 class SpUtils() {
     private lateinit var sp: SharedPreferences
     private val spName: String = "record_sp"
-
+    private val languageKey: String = "language"
     private val dateKey: String = "date_key"
 
     constructor(context: Context) : this() {
         sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE)
+    }
+
+    fun setLanguage(language: String) {
+        sp.edit().putString(languageKey, language).apply()
+    }
+
+    fun getLanguage(): String? {
+        return sp.getString(languageKey, "zh")
     }
 
     fun setDate(date: String) {
