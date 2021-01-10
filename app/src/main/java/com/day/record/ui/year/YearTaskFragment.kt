@@ -1,14 +1,14 @@
 package com.day.record.ui.year
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,6 +20,8 @@ import com.day.record.databinding.FragmentYearTaskBinding
 import com.day.record.databinding.RcyItemYearTaskViewBinding
 import com.day.record.databinding.TaskDialogFragmentBinding
 import com.day.record.ui.task.CrudTaskActivity
+import com.day.record.utils.Utils
+import kotlinx.android.synthetic.main.task_dialog_fragment.*
 
 /**
  * @author Jere
@@ -178,17 +180,63 @@ class YearTaskFragment : Fragment() {
             binding?.deleteTaskTv?.setOnClickListener(this)
             binding?.cancelTv?.setOnClickListener(this)
 
-            view.scaleX = 0F
-            view.scaleY = 0F
-            val holder5 = PropertyValuesHolder.ofFloat("scaleX", 1F)
-            val holder6 = PropertyValuesHolder.ofFloat("scaleY", 1F)
-            val objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-                view,
-                holder5,
-                holder6
-            )
-            objectAnimator.duration = 500
-            objectAnimator.start()
+            fakeContentView.setOnClickListener {
+                dismissDialog()
+            }
+
+
+            //listener system back button
+            dialog?.setOnKeyListener(object : DialogInterface.OnKeyListener {
+                override fun onKey(
+                    dialog: DialogInterface?,
+                    keyCode: Int,
+                    event: KeyEvent?
+                ): Boolean {
+                    Log.e("jctest", "onKey: keyCode = $keyCode")
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        dismissDialog()
+                        //if you don't want system dismiss the dialog directly, set return true
+                        return true
+                    }
+                    return false
+                }
+
+            })
+
+
+        }
+
+        /**
+         * custom dismiss dialog animation, rather than use system dismiss dialog directly
+         */
+        private fun dismissDialog() {
+            val oa = ObjectAnimator.ofFloat(view, "translationY", Utils.dpToPixel(220F))
+            oa.duration = 400
+            oa.start()
+
+            oa.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    dialog?.dismiss()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+
+                override fun onAnimationStart(animation: Animator?) {
+                }
+
+            })
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val dialog = super.onCreateDialog(savedInstanceState)
+            dialog.setCancelable(true)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            return dialog
         }
 
         override fun onDestroyView() {
@@ -204,8 +252,9 @@ class YearTaskFragment : Fragment() {
                 R.id.deleteTaskTv -> {
                     goToTaskActivity(CrudTaskActivity.DELETE_OPERATE)
                 }
-                R.id.cancelTv -> dialog?.dismiss()
+//                R.id.cancelTv -> dialog?.dismiss()
             }
+            dismissDialog()
         }
 
         private fun goToTaskActivity(operateType: Int) {
@@ -235,10 +284,10 @@ class YearTaskFragment : Fragment() {
     }
 
     private fun showDialog(yearTask: YearTask) {
-        val ft = childFragmentManager.beginTransaction()
+        val ft = activity?.supportFragmentManager?.beginTransaction()
         val taskDialogFragment = TaskDialogFragment.newInstance(yearTask)
         taskDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_style)
-        taskDialogFragment.show(ft, TaskDialogFragment.TAG)
+        ft?.let { taskDialogFragment.show(it, TaskDialogFragment.TAG) }
     }
 
 }
