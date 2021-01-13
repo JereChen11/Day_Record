@@ -11,8 +11,7 @@
         android:id="@+id/taskTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="remember Word"
-        android:textSize="20sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,8 +19,8 @@
         android:id="@+id/targetTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="300 Day"
-        android:textSize="19sp"
+        android:textColor="@color/theme_second"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/taskTv"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="finish days: 4"
-        android:textSize="19sp"
+        android:textColor="@color/wood1"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/taskTv"
         app:layout_constraintTop_toBottomOf="@id/taskTv" />

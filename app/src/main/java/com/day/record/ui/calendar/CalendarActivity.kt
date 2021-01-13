@@ -46,8 +46,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
         val curYear = binding.calendarView.curYear
         val curMonth = binding.calendarView.curMonth
         val curDay = binding.calendarView.curDay
-        val lunar = binding.calendarView.selectedCalendar.lunar
-        setSelectedDate(curYear, curMonth, curDay, lunar)
+        setSelectedDate(curYear, curMonth, curDay)
         queryMonthTasksData(curYear, curMonth, curDay)
 
         binding.calendarView.setOnCalendarSelectListener(this)
@@ -124,14 +123,14 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
     }
 
     override fun onCalendarSelect(calendar: Calendar?, isClick: Boolean) {
-        setSelectedDate(calendar?.year, calendar?.month, calendar?.day, calendar?.lunar)
+        setSelectedDate(calendar?.year, calendar?.month, calendar?.day)
     }
 
     override fun onCalendarOutOfRange(calendar: Calendar?) {
         TODO("Not yet implemented")
     }
 
-    private fun setSelectedDate(year: Int?, month: Int?, day: Int?, lunar: String?) {
+    private fun setSelectedDate(year: Int?, month: Int?, day: Int?) {
         val selectedDate = getString(R.string.format_selected_date, year, month, day)
         binding.calendarAppBar.setTitleText(selectedDate)
         binding.selectedDateTv.text = selectedDate

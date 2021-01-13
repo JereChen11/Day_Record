@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="theme">#0A5CD2</color>
+    <color name="theme_second">#90C6F2</color>
+
     <color name="wood1">#FFD39B</color>
     <color name="wood2">#EEC591</color>
     <color name="wood3">#CDAA7D</color>

@@ -1,10 +1,13 @@
 package com.day.record.ui.splash
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.BounceInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.day.record.MainActivity
 import com.day.record.databinding.ActivitySplashBinding
@@ -28,11 +31,49 @@ class SplashActivity : AppCompatActivity() {
             SpUtils.getInstance().setLanguage(currentLanguage)
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            kotlin.run {
-                gotoMainActivity()
-            }
-        }, 1000)
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            kotlin.run {
+//                gotoMainActivity()
+//            }
+//        }, 1000)
+
+        binding.logoIv.apply {
+            scaleX = 0F
+            scaleY = 0F
+            alpha = 0F
+            animate().scaleX(1F)
+                .scaleY(1F)
+                .alpha(1F)
+                .setDuration(1500)
+                .setInterpolator(BounceInterpolator())
+                .setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(animation: Animator?) {
+                    }
+
+                    override fun onAnimationEnd(animation: Animator?) {
+                        gotoMainActivity()
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        gotoMainActivity()
+                    }
+
+                    override fun onAnimationStart(animation: Animator?) {
+                    }
+
+                })
+                .start()
+        }
+
+        binding.nameTv.apply {
+            scaleX = 0F
+            scaleY = 0F
+            animate().scaleX(1F)
+                .scaleY(1F)
+                .setDuration(1200)
+                .setInterpolator(AccelerateInterpolator())
+                .start()
+        }
 
     }
 
