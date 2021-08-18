@@ -1,5 +1,6 @@
 package com.day.record
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
@@ -11,6 +12,7 @@ import com.day.record.data.AppDatabase
 class MyApp : Application() {
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
         lateinit var appDatabase: AppDatabase
     }

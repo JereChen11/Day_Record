@@ -3,14 +3,12 @@ package com.day.record.ui.splash
 import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.BounceInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import com.day.record.MainActivity
 import com.day.record.databinding.ActivitySplashBinding
+import com.day.record.ui.MainActivity
 import com.day.record.utils.SpUtils
 import com.day.record.utils.Utils
 import java.util.*
@@ -30,12 +28,6 @@ class SplashActivity : AppCompatActivity() {
         if (currentLanguage != SpUtils.getInstance().getLanguage()) {
             SpUtils.getInstance().setLanguage(currentLanguage)
         }
-
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            kotlin.run {
-//                gotoMainActivity()
-//            }
-//        }, 1000)
 
         binding.logoIv.apply {
             scaleX = 0F
