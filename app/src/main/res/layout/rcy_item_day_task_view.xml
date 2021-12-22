@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:button="@drawable/check_box_selected"
         android:checked="false"
+        android:buttonTint="@color/theme_second"
         android:gravity="center"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"

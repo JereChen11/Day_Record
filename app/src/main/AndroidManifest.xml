@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/day_record_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Day_record">
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name=".ui.splash.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

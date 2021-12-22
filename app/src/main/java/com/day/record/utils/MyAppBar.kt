@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.day.record.R
-import kotlinx.android.synthetic.main.custom_view_my_app_bar.view.*
+import com.day.record.databinding.CustomViewMyAppBarBinding
 
 /**
  * @author Jere
@@ -24,24 +24,28 @@ class MyAppBar(
         initView(context, attr)
     }
 
-    private fun initView(context: Context, attr: AttributeSet?) {
-        LayoutInflater.from(context).inflate(R.layout.custom_view_my_app_bar, this, true)
-        backIconIv.setOnClickListener { (context as Activity).finish() }
+    private var binding: CustomViewMyAppBarBinding? = null
 
+    private fun initView(context: Context, attr: AttributeSet?) {
+        binding = CustomViewMyAppBarBinding.inflate(LayoutInflater.from(context), this, true)
         val typedArray = context.obtainStyledAttributes(attr, R.styleable.MyAppBar)
         val titleString = typedArray.getString(R.styleable.MyAppBar_title)
-        titleTv.text = titleString
+
+        binding?.apply {
+            backIconIv.setOnClickListener { (context as Activity).finish() }
+            titleTv.text = titleString
+        }
 
         typedArray.recycle()
     }
 
     fun setTitleText(title: String) {
-        titleTv.text = title
+        binding?.titleTv?.text = title
         invalidate()
     }
 
     fun setTitleTextColor(titleColor: Int) {
-        titleTv.setTextColor(titleColor)
+        binding?.titleTv?.setTextColor(titleColor)
         invalidate()
     }
 }

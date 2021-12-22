@@ -28,7 +28,7 @@
             app:current_day_text_color="@color/theme"
             app:layout_constraintTop_toBottomOf="@id/calendarAppBar"
             app:month_view="com.day.record.ui.calendar.ProgressMonthView"
-            app:scheme_text_color="@color/purple_200"
+            app:scheme_text_color="@color/grey_text"
             app:week_view="com.day.record.ui.calendar.ProgressWeekView" />
 
 

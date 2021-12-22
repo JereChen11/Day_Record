@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/backIconIv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/vector_drawable_left_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

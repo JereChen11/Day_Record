@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="theme">#0A5CD2</color>
-    <color name="theme_second">#90C6F2</color>
+    <color name="theme_second">#2384FF</color>
+    <color name="grey_edit_background">#EFF2F9</color>
+    <color name="grey_text">#999999</color>
 
     <color name="wood1">#FFD39B</color>
     <color name="wood2">#EEC591</color>

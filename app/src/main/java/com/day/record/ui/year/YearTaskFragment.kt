@@ -21,7 +21,6 @@ import com.day.record.databinding.RcyItemYearTaskViewBinding
 import com.day.record.databinding.TaskDialogFragmentBinding
 import com.day.record.ui.task.CrudTaskActivity
 import com.day.record.utils.Utils
-import kotlinx.android.synthetic.main.task_dialog_fragment.*
 
 /**
  * @author Jere
@@ -176,12 +175,11 @@ class YearTaskFragment : Fragment() {
 
             yearTask = arguments?.getSerializable(YEAR_TASK_KEY) as YearTask?
 
-            binding?.updateTaskTv?.setOnClickListener(this)
-            binding?.deleteTaskTv?.setOnClickListener(this)
-            binding?.cancelTv?.setOnClickListener(this)
-
-            fakeContentView.setOnClickListener {
-                dismissDialog()
+            binding?.apply {
+                updateTaskTv.setOnClickListener(this@TaskDialogFragment)
+                deleteTaskTv.setOnClickListener(this@TaskDialogFragment)
+                cancelTv.setOnClickListener(this@TaskDialogFragment)
+                fakeContentView.setOnClickListener(this@TaskDialogFragment)
             }
 
 

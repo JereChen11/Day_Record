@@ -8,44 +8,49 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.day.record.R
+import com.day.record.databinding.ActivityMainBinding
 import com.day.record.ui.calendar.CalendarActivity
 import com.day.record.ui.day.DayTaskFragment
 import com.day.record.ui.year.YearTaskFragment
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 /**
  * @author Jere
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
-        toolbar.title = getString(R.string.day_task)
+        binding.includeView.apply {
+            setSupportActionBar(toolbar)
+            toolbar.title = getString(R.string.day_task)
 
-        bottomNavView.apply {
-            selectedItemId = R.id.bottomNavDayTask
-            setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.bottomNavDayTask -> {
-                        toolbar.title = getString(R.string.day_task)
-                        supportFragmentManager.commit {
-                            setReorderingAllowed(true)
-                            replace<DayTaskFragment>(R.id.fcv)
+            bottomNavView.apply {
+                selectedItemId = R.id.bottomNavDayTask
+                setOnNavigationItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.bottomNavDayTask -> {
+                            toolbar.title = getString(R.string.day_task)
+                            supportFragmentManager.commit {
+                                setReorderingAllowed(true)
+                                replace<DayTaskFragment>(R.id.fcv)
+                            }
+                            true
                         }
-                        true
-                    }
-                    R.id.bottomNavYearTask -> {
-                        toolbar.title = getString(R.string.year_task)
-                        supportFragmentManager.commit {
-                            setReorderingAllowed(true)
-                            replace<YearTaskFragment>(R.id.fcv)
+                        R.id.bottomNavYearTask -> {
+                            toolbar.title = getString(R.string.year_task)
+                            supportFragmentManager.commit {
+                                setReorderingAllowed(true)
+                                replace<YearTaskFragment>(R.id.fcv)
+                            }
+                            true
                         }
-                        true
+                        else -> false
                     }
-                    else -> false
                 }
             }
         }
