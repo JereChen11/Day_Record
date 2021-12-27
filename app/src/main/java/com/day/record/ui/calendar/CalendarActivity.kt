@@ -1,7 +1,6 @@
 package com.day.record.ui.calendar
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,11 +58,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
             taskDetailListAdapter.setData(dayTaskList, currentSelectedDate)
         })
 
-        taskDetailListAdapter =
-            TaskDetailListAdapter(
-                this,
-                dayTaskList
-            )
+        taskDetailListAdapter = TaskDetailListAdapter(dayTaskList)
         binding.taskRcy.adapter = taskDetailListAdapter
 
     }
@@ -112,7 +107,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
         day: Int,
         color: Int,
         text: String
-    ): Calendar? {
+    ): Calendar {
         val calendar = Calendar()
         calendar.year = year
         calendar.month = month
@@ -165,10 +160,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
     }
 
 
-    class TaskDetailListAdapter(
-        private val context: Context,
-        private var dayTaskList: List<DayTask>
-    ) :
+    class TaskDetailListAdapter(private var dayTaskList: List<DayTask>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         companion object {
@@ -178,6 +170,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
 
         private var currentSelectedDate: String? = null
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setData(newDayTaskList: List<DayTask>, newSelectedDate: String) {
             this.dayTaskList = newDayTaskList
             currentSelectedDate = newSelectedDate
@@ -201,15 +194,16 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
         class NoTaskViewHolder(private val binding: RcyItemTaskDetailNoTaskViewBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(context: Context, selectedDateString: String?) {
+            fun bind(selectedDateString: String?) {
                 if (!selectedDateString.isNullOrBlank()) {
                     val currentDate = convertStringToDate(Utils.getCurrentDate())
                     val selectedDate = convertStringToDate(selectedDateString)
-                    if (currentDate?.before(selectedDate)!!) {
-                        binding.noTaskTv.text =
+                    binding.noTaskTv.apply {
+                        text = if (currentDate?.before(selectedDate)!!) {
                             context.getString(R.string.meet_in_the_future)
-                    } else {
-                        binding.noTaskTv.text = context.getString(R.string.no_do_any_task)
+                        } else {
+                            context.getString(R.string.no_do_any_task)
+                        }
                     }
                     binding.noTaskContainerLl.visibility = View.VISIBLE
                 }
@@ -267,7 +261,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListe
                 myViewHolder.bind(dayTaskList[position])
             } else {
                 val noTaskViewHolder = holder as NoTaskViewHolder
-                noTaskViewHolder.bind(context, currentSelectedDate)
+                noTaskViewHolder.bind(currentSelectedDate)
             }
 
         }

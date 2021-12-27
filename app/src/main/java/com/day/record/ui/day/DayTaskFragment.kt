@@ -1,6 +1,5 @@
 package com.day.record.ui.day
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.day.record.data.entity.DayTask
@@ -27,8 +25,6 @@ class DayTaskFragment : Fragment() {
 
     private lateinit var dayTaskViewModel: DayTaskViewModel
     private var binding: FragmentDayTaskBinding? = null
-    private var dayTaskList: MutableList<DayTask> = ArrayList()
-    private var dayTaskListAdapter: DayTaskListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,22 +37,18 @@ class DayTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dayTaskViewModel = ViewModelProvider(this).get(DayTaskViewModel::class.java)
-        dayTaskViewModel.dayTaskListLd.observe(viewLifecycleOwner, Observer {
-            dayTaskList.clear()
-            dayTaskList.addAll(it)
-            dayTaskListAdapter?.setData(dayTaskList)
+        dayTaskViewModel = ViewModelProvider(this)[DayTaskViewModel::class.java]
+        dayTaskViewModel.dayTaskListLd.observe(viewLifecycleOwner, {
+            binding?.dayTaskRcy?.adapter = DayTaskListAdapter(it,
+                object : DayTaskListAdapter.ItemCheckBoxListener {
+                    override fun onChange(view: View, position: Int, isChecked: Boolean) {
+                        val dayTask = it[position]
+                        dayTask.isFinish = isChecked
+                        dayTaskViewModel.updateTask(isChecked, dayTask)
+                    }
+                })
         })
 
-        dayTaskListAdapter = context?.let { DayTaskListAdapter(it, dayTaskList) }
-        dayTaskListAdapter?.setListener(object : DayTaskListAdapter.ItemCheckBoxListener {
-            override fun onChange(view: View, position: Int, isChecked: Boolean) {
-                val dayTask = dayTaskList[position]
-                dayTask.isFinish = isChecked
-                dayTaskViewModel.updateTask(isChecked, dayTask)
-            }
-        })
-        binding?.dayTaskRcy?.adapter = dayTaskListAdapter
     }
 
     override fun onResume() {
@@ -76,31 +68,24 @@ class DayTaskFragment : Fragment() {
     }
 
     class DayTaskListAdapter(
-        private var context: Context,
-        private var dayTaskList: List<DayTask>
+        private var dayTaskList: List<DayTask>,
+        private val itemCheckBoxListener: ItemCheckBoxListener
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         companion object {
             private const val NORMAL_TYPE = 0
             private const val BOTTOM_TYPE = 1
-            var itemCheckBoxListener: ItemCheckBoxListener? = null
         }
 
         interface ItemCheckBoxListener {
             fun onChange(view: View, position: Int, isChecked: Boolean)
         }
 
-        fun setListener(listener: ItemCheckBoxListener) {
-            itemCheckBoxListener = listener
-        }
-
-        fun setData(newDayTaskList: List<DayTask>) {
-            this.dayTaskList = newDayTaskList
-            notifyDataSetChanged()
-        }
-
-        class MyViewHolder(private val binding: RcyItemDayTaskViewBinding) :
+        class MyViewHolder(
+            private val binding: RcyItemDayTaskViewBinding,
+            private val itemCheckBoxListener: ItemCheckBoxListener
+        ) :
             RecyclerView.ViewHolder(binding.root) {
 
             fun bind(dayTask: DayTask) {
@@ -108,7 +93,7 @@ class DayTaskFragment : Fragment() {
                 binding.checkbox.isChecked = dayTask.isFinish
 
                 binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-                    itemCheckBoxListener?.onChange(buttonView, adapterPosition, isChecked)
+                    itemCheckBoxListener.onChange(buttonView, bindingAdapterPosition, isChecked)
                 }
             }
 
@@ -117,18 +102,18 @@ class DayTaskFragment : Fragment() {
         class BottomViewHolder(private val binding: RcyItemTaskBottomViewBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(context: Context) {
+            fun bind() {
                 Handler(Looper.getMainLooper()).postDelayed(Runnable {
                     kotlin.run {
                         binding.addTaskContainerLl.visibility = View.VISIBLE
                     }
                 }, 100)
                 binding.addTaskContainerLl.setOnClickListener {
-                    val intent = Intent(context, CrudTaskActivity::class.java)
+                    val intent = Intent(it.context, CrudTaskActivity::class.java)
                     val bundle = Bundle()
                     bundle.putInt(CrudTaskActivity.OPERATE_TYPE_KEY, CrudTaskActivity.ADD_OPERATE)
                     intent.putExtras(bundle)
-                    context.startActivity(intent)
+                    it.context.startActivity(intent)
                 }
             }
 
@@ -141,7 +126,7 @@ class DayTaskFragment : Fragment() {
                     parent,
                     false
                 )
-                return MyViewHolder(binding)
+                return MyViewHolder(binding, itemCheckBoxListener)
             }
             val bottomBinding =
                 RcyItemTaskBottomViewBinding.inflate(
@@ -170,7 +155,7 @@ class DayTaskFragment : Fragment() {
                 myViewHolder.bind(dayTaskList[position])
             } else {
                 val bottomViewHolder = holder as BottomViewHolder
-                bottomViewHolder.bind(context)
+                bottomViewHolder.bind()
             }
 
         }
