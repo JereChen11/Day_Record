@@ -36,4 +36,5 @@
     <string name="format_selected_date">%d 年 %d 月 %d 日</string>
     <string name="meet_in_the_future">未来的这一天\n我们再来见面吧!</string>
     <string name="no_do_any_task">你没有在这一天进行任何打卡哦\n加油~坚持就是胜利!</string>
+    <string name="check_today">今天你打卡了吗?</string>
 </resources>

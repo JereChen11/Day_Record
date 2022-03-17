@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">day_record</string>
+    <string name="app_name">Day Record</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -35,4 +35,5 @@
     <string name="format_selected_date">%d / %d / %d</string>
     <string name="meet_in_the_future">This day in the future\nLet’s meet again!</string>
     <string name="no_do_any_task">You didn\'t do any task today\nCome on!</string>
+    <string name="check_today">Did you check in today?</string>
 </resources>

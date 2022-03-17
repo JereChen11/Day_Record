@@ -29,6 +29,13 @@
             android:theme="@style/Theme.Day_record.NoActionBar">
 
         </activity>
+
+        <receiver android:name=".ui.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+        </receiver>
+
     </application>
 
 </manifest>
