@@ -39,18 +39,18 @@ class SplashActivity : AppCompatActivity() {
                 .setDuration(1500)
                 .setInterpolator(BounceInterpolator())
                 .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationRepeat(animation: Animator?) {
+                    override fun onAnimationStart(p0: Animator) {
                     }
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(p0: Animator) {
                         gotoMainActivity()
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(p0: Animator) {
                         gotoMainActivity()
                     }
 
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationRepeat(p0: Animator) {
                     }
 
                 })

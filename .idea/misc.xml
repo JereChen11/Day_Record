@@ -20,7 +20,7 @@
         <entry key="app/src/main/res/drawable/vector_drawable_left_arrow.xml" value="0.2462962962962963" />
         <entry key="app/src/main/res/layout/activity_calendar.xml" value="0.2759259259259259" />
         <entry key="app/src/main/res/layout/activity_crud_task.xml" value="0.20555555555555555" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.20555555555555555" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.20555555555555555" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.20555555555555555" />
         <entry key="app/src/main/res/layout/custom_view_my_app_bar.xml" value="0.20555555555555555" />
@@ -32,5 +32,6 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

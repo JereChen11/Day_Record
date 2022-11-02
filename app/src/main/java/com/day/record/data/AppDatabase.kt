@@ -10,7 +10,7 @@ import com.day.record.data.entity.YearTask
 /**
  * @author Jere
  */
-@Database(entities = [YearTask::class, DayTask::class], version = 1)
+@Database(entities = [YearTask::class, DayTask::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun yearTaskDao(): YearTaskDao

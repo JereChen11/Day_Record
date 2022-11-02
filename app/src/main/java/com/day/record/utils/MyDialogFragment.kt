@@ -73,20 +73,18 @@ class MyDialogFragment : DialogFragment() {
         animatorSet.start()
 
         animatorSet.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-                TODO("Not yet implemented")
+            override fun onAnimationStart(p0: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(p0: Animator) {
                 activity?.finish()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(p0: Animator) {
                 activity?.finish()
             }
 
-            override fun onAnimationStart(animation: Animator?) {
-                TODO("Not yet implemented")
+            override fun onAnimationRepeat(p0: Animator) {
             }
 
         })
