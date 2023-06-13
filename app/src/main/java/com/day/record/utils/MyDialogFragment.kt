@@ -35,10 +35,6 @@ class MyDialogFragment : DialogFragment() {
         binding?.titleTv?.text = titleString
         binding?.taskContentTv?.text = taskString
 
-        binding?.cancelIv?.setOnClickListener {
-            dialog?.dismiss()
-        }
-
         view.scaleX = 0F
         view.scaleY = 0F
 
@@ -88,6 +84,14 @@ class MyDialogFragment : DialogFragment() {
             }
 
         })
+
+        binding?.cancelIv?.setOnClickListener {
+            dialog?.dismiss()
+
+            if (animatorSet.isRunning) {
+                animatorSet.cancel()
+            }
+        }
     }
 
     override fun onDestroyView() {

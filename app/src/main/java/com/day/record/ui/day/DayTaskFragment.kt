@@ -38,7 +38,7 @@ class DayTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dayTaskViewModel = ViewModelProvider(this)[DayTaskViewModel::class.java]
-        dayTaskViewModel.dayTaskListLd.observe(viewLifecycleOwner, {
+        dayTaskViewModel.dayTaskListLd.observe(viewLifecycleOwner) {
             binding?.dayTaskRcy?.adapter = DayTaskListAdapter(it,
                 object : DayTaskListAdapter.ItemCheckBoxListener {
                     override fun onChange(view: View, position: Int, isChecked: Boolean) {
@@ -47,7 +47,7 @@ class DayTaskFragment : Fragment() {
                         dayTaskViewModel.updateTask(isChecked, dayTask)
                     }
                 })
-        })
+        }
 
     }
 

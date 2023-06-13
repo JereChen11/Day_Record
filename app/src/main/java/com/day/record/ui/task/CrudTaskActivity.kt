@@ -41,7 +41,7 @@ class CrudTaskActivity : AppCompatActivity() {
         initView()
 
         viewModel = ViewModelProvider(this)[CrudTaskViewModel::class.java]
-        viewModel.crudTaskResultMld.observe(this, Observer {
+        viewModel.crudTaskResultMld.observe(this) {
             if (it) {
                 val taskContent = "${binding.taskEt.text} ${binding.taskTargetEt.text}"
 
@@ -49,16 +49,18 @@ class CrudTaskActivity : AppCompatActivity() {
                     UPDATE_OPERATE -> {
                         showDialog(getString(R.string.update_task_successfully), taskContent)
                     }
+
                     DELETE_OPERATE -> {
                         showDialog(getString(R.string.delete_task_successfully), taskContent)
                     }
+
                     ADD_OPERATE -> {
                         showDialog(getString(R.string.add_task_successfully), taskContent)
                         SpUtils.getInstance().setDate(Utils.getCurrentDate())
                     }
                 }
             }
-        })
+        }
 
         binding.taskBtn.setOnClickListener {
             if (binding.taskEt.text.isNotBlank() && binding.taskTargetEt.text.toString()

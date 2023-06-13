@@ -11,9 +11,9 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:background="@drawable/shape_rectangle_radius_15_color_white"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="15dp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,47 +23,40 @@
             android:id="@+id/titleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/add_task_successfully"
             android:textColor="@color/black"
             android:textSize="23sp"
-            android:text="@string/add_task_successfully"
             android:visibility="visible" />
 
         <TextView
             android:id="@+id/taskContentTv"
             android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="visible" />
 
-<!--        <Button-->
-<!--            android:id="@+id/taskConfirmBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:visibility="gone"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            android:textSize="20sp" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/taskConfirmBtn"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:visibility="gone"-->
+        <!--            android:layout_marginTop="24dp"-->
+        <!--            android:textSize="20sp" />-->
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/positionAssitantView"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        app:layout_constraintEnd_toEndOf="@id/containerLl"
-        app:layout_constraintTop_toTopOf="@id/containerLl" />
 
     <ImageView
         android:id="@+id/cancelIv"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/vector_drawable_cancel_icon"
+        android:layout_marginTop="-17dp"
+        android:layout_marginEnd="-17dp"
         android:background="@drawable/shape_oval_white"
-        app:layout_constraintBottom_toBottomOf="@id/positionAssitantView"
-        app:layout_constraintEnd_toEndOf="@id/positionAssitantView"
-        app:layout_constraintStart_toStartOf="@id/positionAssitantView"
-        app:layout_constraintTop_toTopOf="@id/positionAssitantView" />
+        android:src="@drawable/vector_drawable_cancel_icon"
+        app:layout_constraintEnd_toEndOf="@id/containerLl"
+        app:layout_constraintTop_toTopOf="@id/containerLl" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
